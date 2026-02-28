@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VECTO — Цифровая архитектура для бизнеса</title>
+  <!-- SEO & Open Graph -->
+  <meta name="description"
+    content="VECTO — цифровая архитектура для бизнеса. Лендинги, Telegram-боты, контент-системы и финмодели на основе анализа вашего бизнеса.">
+  <meta name="keywords"
+    content="разработка сайтов, лендинг, telegram бот, финансовая модель, цифровизация бизнеса, стартап">
+  <meta property="og:title" content="VECTO — Цифровая архитектура для бизнеса">
+  <meta property="og:description"
+    content="Проектируем лендинги, ботов, контент-системы и финмодели. Каждое решение — индивидуальное.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <!-- ============ NAVIGATION ============ -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">VECTO</a>
+      <ul class="nav-links">
+        <li><a href="#process">Процесс</a></li>
+        <li><a href="#services">Услуги</a></li>
+        <li><a href="#packages">Пакеты</a></li>
+        <li><a href="#cases">Кейсы</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <a href="https://t.me/nika_archon" target="_blank" rel="noopener noreferrer" class="nav-cta">Написать нам</a>
+      <button class="nav-burger" id="burger" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============ MOBILE MENU ============ -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Закрыть меню">✕</button>
+    <a href="#process" class="mobile-menu-link">Процесс</a>
+    <a href="#services" class="mobile-menu-link">Услуги</a>
+    <a href="#packages" class="mobile-menu-link">Пакеты</a>
+    <a href="#cases" class="mobile-menu-link">Кейсы</a>
+    <a href="#faq" class="mobile-menu-link">FAQ</a>
+    <a href="https://t.me/nika_archon" target="_blank" rel="noopener noreferrer" class="mobile-menu-cta">
+      Написать в Telegram
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 2L11 13" />
+        <path d="M22 2L15 22l-4-9-9-4z" />
+      </svg>
+    </a>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <section id="hero" class="section">
+    <div class="container">
+      <div class="hero-card">
+        <div class="hero-bg">
+          <canvas id="heroCanvas"></canvas>
+        </div>
+        <div class="hero-card-overlay"></div>
+
+        <div class="hero-content">
+          <h1 class="hero-heading reveal">
+            Цифровая архитектура<br>
+            <span class="accent">для вашего бизнеса.</span>
+          </h1>
+          <p class="hero-description reveal reveal-delay-1">
+            Проектируем лендинги, ботов, контент-системы и финмодели на основе анализа вашего бизнеса, рынка и
+            конкурентов. Каждое решение — индивидуальное.
+          </p>
+          <div class="hero-buttons reveal reveal-delay-2">
+            <a href="#calculator" class="btn-primary">
+              Узнать стоимость
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17l9.2-9.2M17 17V8H8" />
+              </svg>
+            </a>
+            <a href="https://t.me/nika_archon" target="_blank" rel="noopener noreferrer" class="btn-ghost">
+              Написать в Telegram
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 2L11 13" />
+                <path d="M22 2L15 22l-4-9-9-4z" />
+              </svg>
+            </a>
+          </div>
+
+          <div class="hero-bottom-bar reveal reveal-delay-3">
+            <div class="hero-stats">
+              <div>
+                <div class="hero-stat-number">6</div>
+                <div class="hero-stat-label">типов решений</div>
+              </div>
+              <div>
+                <div class="hero-stat-number">5–10</div>
+                <div class="hero-stat-label">дней на лендинг</div>
+              </div>
+              <div>
+                <div class="hero-stat-number">−30%</div>
+                <div class="hero-stat-label">первым 10 клиентам</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="section-divider"></div>
+  </div>
+
+  <!-- ============ PROBLEMS ============ -->
+  <section id="problems" class="section">
+    <div class="container">
+      <div class="section-label reveal">01 — Проблема</div>
+      <h2 class="section-title reveal">Без цифры бизнес<br>теряет деньги каждый день</h2>
+      <p class="section-subtitle reveal">Пока вы думаете, нужен ли вам сайт — ваши конкуренты уже забирают ваших
+        клиентов из поиска, соцсетей и карт.</p>
+
+      <div class="problems-grid">
+        <div class="problem-card reveal">
+          <div class="problem-num">01 / 03</div>
+          <h3 class="problem-title">У вас нет сайта</h3>
+          <ul class="problem-list">
+            <li>Клиенты гуглят вас и не находят</li>
+            <li>Нет доверия, нет первого впечатления</li>
+            <li>Конкуренты с сайтом забирают ваших клиентов</li>
+          </ul>
+          <div class="problem-solution">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+            Мы создаём лендинг, который конвертирует
+          </div>
+        </div>
+
+        <div class="problem-card reveal reveal-delay-1">
+          <div class="problem-num">02 / 03</div>
+          <h3 class="problem-title">Вы невидимы в интернете</h3>
+          <ul class="problem-list">
+            <li>Нет контента = нет бесплатного трафика</li>
+            <li>Нет Дзена, YouTube, Telegram = вы не существуете для нового поколения</li>
+            <li>Платная реклама съедает бюджет, а органика = 0</li>
+          </ul>
+          <div class="problem-solution">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+            Мы настраиваем контент-систему с AI-агентом
+          </div>
+        </div>
+
+        <div class="problem-card reveal reveal-delay-2">
+          <div class="problem-num">03 / 03</div>
+          <h3 class="problem-title">Вы не знаете своих цифр</h3>
+          <ul class="problem-list">
+            <li>Нет финмодели = решения на интуиции</li>
+            <li>Не видите, где теряете деньги</li>
+            <li>Инвесторам нечего показать</li>
+          </ul>
+          <div class="problem-solution">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+            Мы строим финансовую модель и дашборд
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-bar reveal" id="statsBar">
+        <div class="stats-bar-item">
+          <div class="stats-bar-number" data-target="67" data-suffix="%">67%</div>
+          <div class="stats-bar-text">покупателей проверяют компанию онлайн перед покупкой</div>
+        </div>
+        <div class="stats-bar-item">
+          <div class="stats-bar-number" data-target="3" data-suffix=" сек" data-is-time="true">3 сек</div>
+          <div class="stats-bar-text">чтобы произвести первое впечатление на сайте</div>
+        </div>
+        <div class="stats-bar-item">
+          <div class="stats-bar-number" data-target="40" data-suffix="%">40%</div>
+          <div class="stats-bar-text">малых бизнесов закрываются без онлайн-присутствия</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="section-divider"></div>
+  </div>
+
+  <!-- ============ PROCESS ============ -->
+  <section id="process" class="section">
+    <div class="container">
+      <div class="section-label reveal">02 — Как мы работаем</div>
+      <h2 class="section-title reveal">Не начинаем с дизайна.<br>Начинаем с исследования.</h2>
+      <p class="section-subtitle reveal">Каждый проект проходит через 6 этапов. Поэтому результат — не красивая
+        картинка, а инструмент, который приносит прибыль.</p>
+
+      <div class="process-timeline">
+        <div class="process-step reveal">
+          <div class="process-step-num">01</div>
+          <h4 class="process-step-title">Анализ бизнес-модели</h4>
+          <p class="process-step-desc">Разбираем продукт, аудиторию, каналы продаж и модель монетизации. Понимаем, как
+            бизнес зарабатывает.</p>
+        </div>
+        <div class="process-step reveal reveal-delay-1">
+          <div class="process-step-num">02</div>
+          <h4 class="process-step-title">Анализ рынка и конкурентов</h4>
+          <p class="process-step-desc">Изучаем, кто ваши конкуренты, что они делают хорошо и где их слабые места.
+            Находим точки роста.</p>
+        </div>
+        <div class="process-step reveal reveal-delay-2">
+          <div class="process-step-num">03</div>
+          <h4 class="process-step-title">Лучшие практики</h4>
+          <p class="process-step-desc">Собираем решения лидеров рынка в России и мире. Берём то, что работает —
+            адаптируем под вас.</p>
+        </div>
+        <div class="process-step reveal reveal-delay-1">
+          <div class="process-step-num">04</div>
+          <h4 class="process-step-title">Стратегия и брейншторм</h4>
+          <p class="process-step-desc">Генерируем идеи. Определяем, что именно нужно сделать, чтобы обойти конкурентов.
+          </p>
+        </div>
+        <div class="process-step reveal reveal-delay-2">
+          <div class="process-step-num">05</div>
+          <h4 class="process-step-title">Разработка</h4>
+          <p class="process-step-desc">Создаём продукт строго по стратегии. Чистый код, без конструкторов. Полный
+            контроль.</p>
+        </div>
+        <div class="process-step reveal reveal-delay-3">
+          <div class="process-step-num">06</div>
+          <h4 class="process-step-title">Контроль и запуск</h4>
+          <p class="process-step-desc">Проверяем каждую деталь. Тестируем на всех устройствах. Запускаем и поддерживаем.
+          </p>
+        </div>
+      </div>
+
+      <div class="process-note reveal">
+        <p>«Мы не исполнители, а бизнес-партнёры. Мы понимаем ваш бизнес так же глубоко, как вы сами — и делаем цифровые
+          решения, которые работают именно для вас.»</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="section-divider"></div>
+  </div>
+
+  <!-- ============ SERVICES ============ -->
+  <section id="services" class="section">
+    <div class="container">
+      <div class="section-label reveal">03 — Услуги</div>
+      <h2 class="section-title reveal">Что мы делаем</h2>
+      <p class="section-subtitle reveal">Полный стек цифровых решений для бизнеса — от первого сайта до автоматизации
+        контента.</p>
+
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-icon">🖥</div>
+          <h4 class="service-name">Лендинг</h4>
+          <p class="service-desc">Полноценный код, не конструктор. Адаптивный, быстрый, уникальный. Спроектирован под
+            вашу бизнес-модель, чтобы конвертировать посетителей в клиентов.</p>
+          <div class="service-price">от 25 000 ₽</div>
+        </div>
+
+        <div class="service-card reveal reveal-delay-1">
+          <div class="service-icon">🤖</div>
+          <h4 class="service-name">Telegram-бот</h4>
+          <p class="service-desc">Автоматизация продаж, записи, поддержки. Бот работает 24/7, не берёт зарплату и не
+            уходит в отпуск. Интеграция с вашими процессами.</p>
+          <div class="service-price">от 15 000 ₽</div>
+        </div>
+
+        <div class="service-card reveal reveal-delay-2">
+          <div class="service-icon">📈</div>
+          <h4 class="service-name">Контент-система</h4>
+          <p class="service-desc">AI-агент ведёт ваш Дзен, Telegram и YouTube. Регулярный контент, бесплатный трафик,
+            рост узнаваемости — на автопилоте.</p>
+          <div class="service-price">от 20 000 ₽</div>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon">💰</div>
+          <h4 class="service-name">Финансовая модель</h4>
+          <p class="service-desc">Дашборд с ключевыми метриками, прогнозы, точки роста. Визуализация для инвесторов.
+            Решения на основе данных, а не интуиции.</p>
+          <div class="service-price">от 20 000 ₽</div>
+        </div>
+
+        <div class="service-card reveal reveal-delay-1">
+          <div class="service-icon">✍️</div>
+          <h4 class="service-name">Копирайтинг и статьи</h4>
+          <p class="service-desc">Научные статьи, исследования, бизнес-контент. AI-усиленный копирайтинг с инфографикой
+            для публикаций любого уровня.</p>
+          <div class="service-price">от 5 000 ₽</div>
+        </div>
+
+        <div class="service-card reveal reveal-delay-2">
+          <div class="service-icon">💬</div>
+          <h4 class="service-name">Бизнес-консультация</h4>
+          <p class="service-desc">Разберём вашу бизнес-модель, найдём слабые места, предложим план цифровизации с
+            конкретными шагами и приоритетами.</p>
+          <div class="service-price free">Первая — бесплатно</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="section-divider"></div>
+  </div>
+
+  <!-- ============ PACKAGES ============ -->
+  <section id="packages" class="section">
+    <div class="container">
+      <div class="section-label reveal">04 — Пакеты</div>
+      <h2 class="section-title reveal">Выберите свой масштаб</h2>
+      <p class="section-subtitle reveal">Три пакета под разные этапы бизнеса. Или соберите индивидуальный набор в
+        калькуляторе ниже.</p>
+
+      <div class="packages-grid">
+        <div class="package-card reveal">
+          <div class="package-name">Старт</div>
+          <div class="package-for">Для тех, кто начинает с нуля</div>
+          <div class="package-price">35 000 <span>₽</span></div>
+          <div class="package-note">единоразово</div>
+          <ul class="package-features">
+            <li><span class="check">✓</span> Лендинг на чистом коде</li>
+            <li><span class="check">✓</span> Настройка Яндекс.Карт</li>
+            <li><span class="check">✓</span> Бесплатная консультация</li>
+          </ul>
+          <button class="package-btn" onclick="window.open('https://t.me/nika_archon','_blank')">Обсудить в
+            Telegram</button>
+        </div>
+
+        <div class="package-card popular reveal reveal-delay-1">
+          <div class="package-badge">Популярный</div>
+          <div class="package-name">Рост</div>
+          <div class="package-for">Для тех, кто хочет расти</div>
+          <div class="package-price">70 000 <span>₽</span></div>
+          <div class="package-note">единоразово</div>
+          <ul class="package-features">
+            <li><span class="check">✓</span> Всё из пакета «Старт»</li>
+            <li><span class="check">✓</span> Telegram-бот</li>
+            <li><span class="check">✓</span> Финансовая модель</li>
+            <li><span class="check">✓</span> Базовый дашборд</li>
+          </ul>
+          <button class="package-btn" onclick="window.open('https://t.me/nika_archon','_blank')">Обсудить в
+            Telegram</button>
+        </div>
+
+        <div class="package-card reveal reveal-delay-2">
+          <div class="package-name">Масштаб</div>
+          <div class="package-for">Для тех, кто хочет доминировать</div>
+          <div class="package-price">120 000 <span>₽</span></div>
+          <div class="package-note">единоразово</div>
+          <ul class="package-features">
+            <li><span class="check">✓</span> Всё из пакета «Рост»</li>
+            <li><span class="check">✓</span> AI контент-система</li>
+            <li><span class="check">✓</span> Ведение Дзен + Telegram</li>
+            <li><span class="check">✓</span> Расширенный дашборд</li>
+            <li><span class="check">✓</span> Ежемесячная поддержка</li>
+          </ul>
+          <button class="package-btn" onclick="window.open('https://t.me/nika_archon','_blank')">Обсудить в
+            Telegram</button>
+        </div>
+      </div>
+
+      <div class="packages-promo reveal">
+        <p><strong>Первые 10 клиентов получают скидку 30%.</strong> Осталось ограниченное количество мест.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="section-divider"></div>
+  </div>
+
+  <!-- ============ CALCULATOR ============ -->
+  <section id="calculator" class="section">
+    <div class="container">
+      <div class="section-label reveal">05 — Калькулятор</div>
+      <h2 class="section-title reveal">Рассчитайте стоимость</h2>
+      <p class="section-subtitle reveal">Выберите нужные услуги — мы покажем ориентировочную стоимость. Точную цену
+        назовём после изучения вашего ТЗ.</p>
+
+      <div class="calc-wrapper reveal">
+        <!-- Step 1: Choose services -->
+        <div class="calc-step active" id="calcStep1">
+          <div class="calc-step-header">
+            <h3 class="calc-step-title">Что вам нужно?</h3>
+            <span class="calc-step-num">Шаг 1 / 2</span>
+          </div>
+          <div class="calc-options" id="calcServices">
+            <div class="calc-option" data-service="landing" data-price="25000">
+              <span class="check-mark">✓</span>
+              <div class="calc-option-name">Лендинг</div>
+              <div class="calc-option-price">от 25 000 ₽</div>
+            </div>
+            <div class="calc-option" data-service="bot" data-price="15000">
+              <span class="check-mark">✓</span>
+              <div class="calc-option-name">Telegram-бот</div>
+              <div class="calc-option-price">от 15 000 ₽</div>
+            </div>
+            <div class="calc-option" data-service="content" data-price="20000">
+              <span class="check-mark">✓</span>
+              <div class="calc-option-name">Контент-система</div>
+              <div class="calc-option-price">от 20 000 ₽</div>
+            </div>
+            <div class="calc-option" data-service="finmodel" data-price="20000">
+              <span class="check-mark">✓</span>
+              <div class="calc-option-name">Финмодель</div>
+              <div class="calc-option-price">от 20 000 ₽</div>
+            </div>
+            <div class="calc-option" data-service="copy" data-price="5000">
+              <span class="check-mark">✓</span>
+              <div class="calc-option-name">Копирайтинг</div>
+              <div class="calc-option-price">от 5 000 ₽</div>
+            </div>
+            <div class="calc-option" data-service="consult" data-price="0">
+              <span class="check-mark">✓</span>
+              <div class="calc-option-name">Консультация</div>
+              <div class="calc-option-price">Бесплатно</div>
+            </div>
+          </div>
+
+          <div class="calc-extras" id="calcExtras">
+            <div class="calc-extra-group" data-for="landing" id="extrasLanding">
+              <div class="calc-extra-group-title">Дополнительно к лендингу:</div>
+              <div class="calc-extras-options">
+                <button class="calc-extra-chip" data-extra-price="5000">Настройка Яндекс.Карт +5 000 ₽</button>
+                <button class="calc-extra-chip" data-extra-price="8000">SEO-оптимизация +8 000 ₽</button>
+                <button class="calc-extra-chip" data-extra-price="3000">Подключение аналитики +3 000 ₽</button>
+              </div>
+            </div>
+            <div class="calc-extra-group" data-for="bot" id="extrasBot">
+              <div class="calc-extra-group-title">Дополнительно к боту:</div>
+              <div class="calc-extras-options">
+                <button class="calc-extra-chip" data-extra-price="5000">CRM-интеграция +5 000 ₽</button>
+                <button class="calc-extra-chip" data-extra-price="7000">Приём оплаты +7 000 ₽</button>
+              </div>
+            </div>
+            <div class="calc-extra-group" data-for="content" id="extrasContent">
+              <div class="calc-extra-group-title">Дополнительно к контент-системе:</div>
+              <div class="calc-extras-options">
+                <button class="calc-extra-chip" data-extra-price="10000">YouTube канал +10 000 ₽</button>
+                <button class="calc-extra-chip" data-extra-price="5000">Инфографика +5 000 ₽</button>
+              </div>
+            </div>
+            <div class="calc-extra-group" data-for="finmodel" id="extrasFinmodel">
+              <div class="calc-extra-group-title">Дополнительно к финмодели:</div>
+              <div class="calc-extras-options">
+                <button class="calc-extra-chip" data-extra-price="10000">Презентация для инвесторов +10 000 ₽</button>
+                <button class="calc-extra-chip" data-extra-price="8000">Расширенный дашборд +8 000 ₽</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="calc-nav">
+            <div class="calc-error-msg" id="calcError">Выберите хотя бы одну услугу</div>
+            <button class="btn-primary" id="calcShowResult">
+              Рассчитать
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Result -->
+        <div class="calc-result" id="calcResult">
+          <div class="calc-total-label">Ориентировочная стоимость:</div>
+          <div class="calc-total" id="calcTotalPrice">от <span class="accent">0</span> ₽</div>
+          <p class="calc-disclaimer">Точную стоимость назовём после изучения вашего технического задания. Возможны
+            индивидуальные скидки при заказе нескольких услуг.</p>
+          <div class="calc-actions">
+            <a href="https://t.me/nika_archon" target="_blank" rel="noopener noreferrer" class="btn-primary">
+              Обсудить в Telegram
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 2L11 13" />
+                <path d="M22 2L15 22l-4-9-9-4z" />
+              </svg>
+            </a>
+            <button class="btn-ghost" id="calcReset">
+              Пересчитать
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="section-divider"></div>
+  </div>
+
+  <!-- ============ CASES ============ -->
+  <section id="cases" class="section">
+    <div class="container">
+      <div class="section-label reveal">06 — Портфолио</div>
+      <h2 class="section-title reveal">Наши работы</h2>
+      <p class="section-subtitle reveal">Реальные проекты, которые можно посмотреть и проверить.</p>
+
+      <div class="cases-grid">
+        <div class="case-card featured reveal">
+          <div>
+            <div class="case-tag">Сайт</div>
+            <h3 class="case-title">Этот сайт — наш первый кейс</h3>
+            <p class="case-desc">Сайт VECTO разработан по той же методологии, которую мы применяем к проектам клиентов:
+              исследование рынка → анализ конкурентов → стратегия → чистый код. Никаких конструкторов, полный контроль
+              над каждым пикселем.</p>
+          </div>
+          <div class="case-visual">
+            ← Вы сейчас на нём
+          </div>
+        </div>
+
+        <div class="case-card reveal">
+          <div class="case-tag">Финмодель</div>
+          <h3 class="case-title">Финансовая модель для стартапа</h3>
+          <p class="case-desc">Интерактивный дашборд с прогнозами выручки, юнит-экономикой и точками безубыточности.
+            Использована клиентом для привлечения инвестиций.</p>
+          <div class="case-visual case-preview-dashboard">
+            <!-- KPI Strip -->
+            <div class="dash-kpi-strip">
+              <div class="dash-kpi-card">
+                <div class="dash-kpi-value">₽2.4M</div>
+                <div class="dash-kpi-meta"><span class="dash-kpi-label">Выручка</span><span class="dash-trend up">▲
+                    +12%</span></div>
+              </div>
+              <div class="dash-kpi-card">
+                <div class="dash-kpi-value">68%</div>
+                <div class="dash-kpi-meta"><span class="dash-kpi-label">Маржа</span><span class="dash-trend up">▲
+                    +3.2%</span></div>
+              </div>
+              <div class="dash-kpi-card">
+                <div class="dash-kpi-value">x3.2</div>
+                <div class="dash-kpi-meta"><span class="dash-kpi-label">ROI</span><span class="dash-trend up">▲</span>
+                </div>
+              </div>
+              <div class="dash-kpi-card">
+                <div class="dash-kpi-value">1,247</div>
+                <div class="dash-kpi-meta"><span class="dash-kpi-label">Клиенты</span><span class="dash-trend up">▲
+                    +8%</span></div>
+              </div>
+              <div class="dash-kpi-card">
+                <div class="dash-kpi-value">₽1,920</div>
+                <div class="dash-kpi-meta"><span class="dash-kpi-label">CAC</span><span class="dash-trend down">▼
+                    −15%</span></div>
+              </div>
+            </div>
+            <!-- Charts Row -->
+            <div class="dash-charts-row">
+              <!-- Line Chart -->
+              <div class="dash-mini-chart">
+                <div class="dash-chart-label">Динамика заказов</div>
+                <svg viewBox="0 0 100 40" preserveAspectRatio="none" class="dash-svg">
+                  <polyline points="0,32 12,28 25,30 38,24 50,20 62,22 75,15 88,10 100,6" fill="none" stroke="#333"
+                    stroke-width="1.2" stroke-linejoin="round" />
+                  <polyline points="0,36 12,34 25,32 38,30 50,28 62,24 75,20 88,14 100,8" fill="none"
+                    stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <!-- Bar Chart -->
+              <div class="dash-mini-chart">
+                <div class="dash-chart-label">Конверсия</div>
+                <div class="dash-bar-chart">
+                  <div class="dash-bar2" style="height:35%"></div>
+                  <div class="dash-bar2 accent" style="height:55%"></div>
+                  <div class="dash-bar2" style="height:42%"></div>
+                  <div class="dash-bar2 accent" style="height:75%"></div>
+                  <div class="dash-bar2" style="height:50%"></div>
+                  <div class="dash-bar2 accent" style="height:90%"></div>
+                  <div class="dash-bar2" style="height:60%"></div>
+                  <div class="dash-bar2 accent" style="height:85%"></div>
+                </div>
+              </div>
+              <!-- Area Chart -->
+              <div class="dash-mini-chart">
+                <div class="dash-chart-label">Доход</div>
+                <svg viewBox="0 0 100 40" preserveAspectRatio="none" class="dash-svg">
+                  <defs>
+                    <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.4" />
+                      <stop offset="100%" stop-color="var(--accent)" stop-opacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M0,38 L10,34 25,30 40,26 55,22 70,16 85,10 100,4 L100,40 L0,40 Z" fill="url(#areaGrad)" />
+                  <polyline points="0,38 10,34 25,30 40,26 55,22 70,16 85,10 100,4" fill="none" stroke="var(--accent)"
+                    stroke-width="1.5" stroke-linejoin="round" />
+                </svg>
+              </div>
+            </div>
+            <!-- Bottom Row -->
+            <div class="dash-bottom-row">
+              <svg class="dash-donut" viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="14" fill="none" stroke="#1e1e1e" stroke-width="3" />
+                <circle cx="18" cy="18" r="14" fill="none" stroke="var(--accent)" stroke-width="3"
+                  stroke-dasharray="55 45" stroke-dashoffset="25" stroke-linecap="round" />
+                <circle cx="18" cy="18" r="14" fill="none" stroke="#22c55e" stroke-width="3" stroke-dasharray="20 80"
+                  stroke-dashoffset="70" stroke-linecap="round" />
+              </svg>
+              <div class="dash-progress-group">
+                <div class="dash-progress-row"><span class="dash-progress-label">Органика</span>
+                  <div class="dash-progress-bar">
+                    <div class="dash-progress-fill" style="width:72%"></div>
+                  </div>
+                </div>
+                <div class="dash-progress-row"><span class="dash-progress-label">Реклама</span>
+                  <div class="dash-progress-bar">
+                    <div class="dash-progress-fill alt" style="width:45%"></div>
+                  </div>
+                </div>
+                <div class="dash-progress-row"><span class="dash-progress-label">Реферал</span>
+                  <div class="dash-progress-bar">
+                    <div class="dash-progress-fill green" style="width:28%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-card reveal reveal-delay-1">
+          <div class="case-tag">Научная статья</div>
+          <h3 class="case-title">Статья для Scopus IEEE</h3>
+          <p class="case-desc">Исследование с инфографикой и данными. Полный цикл: от идеи и методологии до финальной
+            публикации в международном индексируемом журнале.</p>
+          <a href="assets/IEEE_Paper_v3_corrected.pdf" target="_blank" class="case-visual case-preview-article">
+            <!-- Paper title (2 lines, bigger) -->
+            <div class="ieee-title">Neural Network-Based Competency Profiling<br>for Adaptive Engineering Education
+            </div>
+            <!-- Authors -->
+            <div class="ieee-authors">O. Ergunova, A. Somov, N. Chistilin — SPbPU, SPbSUE</div>
+            <!-- Two-column content -->
+            <div class="ieee-columns">
+              <!-- Left column: Russian description -->
+              <div class="ieee-col">
+                <div class="ieee-col-description">
+                  <p>Исследование разрывов между компетенциями выпускников инженерных вузов и требованиями рынка.</p>
+                  <p>Анализ 1 459 студентов из 3 университетов России.</p>
+                  <p>Прогноз спроса на навыки до 2035 года с помощью ансамбля моделей (ARIMA, Prophet, XGBoost).</p>
+                  <p>Предложена архитектура AI-тьютора на базе LLM с этическими принципами.</p>
+                </div>
+              </div>
+              <!-- Right column with chart -->
+              <div class="ieee-col">
+                <div class="ieee-text-line" style="width:100%"></div>
+                <div class="ieee-text-line" style="width:92%"></div>
+                <div class="ieee-text-line" style="width:80%"></div>
+                <!-- Gap Analysis Chart (Fig. 1) -->
+                <div class="ieee-fig-label">Fig. 1. Competency Gap Analysis</div>
+                <div class="ieee-gap-chart">
+                  <div class="ieee-gap-row"><span class="ieee-gap-name">Programming</span>
+                    <div class="ieee-gap-bar-wrap">
+                      <div class="ieee-gap-bar critical" style="width:84%"></div>
+                    </div><span class="ieee-gap-pct">37.9%</span>
+                  </div>
+                  <div class="ieee-gap-row"><span class="ieee-gap-name">Process Eval</span>
+                    <div class="ieee-gap-bar-wrap">
+                      <div class="ieee-gap-bar critical" style="width:72%"></div>
+                    </div><span class="ieee-gap-pct">32.2%</span>
+                  </div>
+                  <div class="ieee-gap-row"><span class="ieee-gap-name">Solutions</span>
+                    <div class="ieee-gap-bar-wrap">
+                      <div class="ieee-gap-bar critical" style="width:68%"></div>
+                    </div><span class="ieee-gap-pct">30.4%</span>
+                  </div>
+                  <div class="ieee-gap-row"><span class="ieee-gap-name">Project Mgmt</span>
+                    <div class="ieee-gap-bar-wrap">
+                      <div class="ieee-gap-bar" style="width:63%"></div>
+                    </div><span class="ieee-gap-pct">28.3%</span>
+                  </div>
+                  <div class="ieee-gap-row"><span class="ieee-gap-name">Cooperation</span>
+                    <div class="ieee-gap-bar-wrap">
+                      <div class="ieee-gap-bar" style="width:6%"></div>
+                    </div><span class="ieee-gap-pct">2.5%</span>
+                  </div>
+                  <!-- Critical threshold dashed line -->
+                  <div class="ieee-threshold" style="left:67%"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Hover overlay -->
+            <div class="ieee-hover-overlay"><span>Читать статью →</span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="section-divider"></div>
+  </div>
+
+  <!-- ============ EDUCATION (Objections) ============ -->
+  <section id="education" class="section">
+    <div class="container">
+      <div class="section-label reveal">07 — Разбираем сомнения</div>
+      <h2 class="section-title reveal">Частые возражения</h2>
+      <p class="section-subtitle reveal">Если вы думаете что-то из этого — вот наши аргументы.</p>
+
+      <div class="accordion" id="objections">
+        <div class="accordion-item reveal">
+          <button class="accordion-header">
+            «Зачем мне сайт, если у меня и так есть клиенты?»
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              Клиенты есть сейчас. Но мир меняется: новое поколение покупателей сначала ищет вас в Google, смотрит
+              отзывы, сравнивает с конкурентами. Если вас нет онлайн — для них вы не существуете. Сайт — это не расход,
+              а страховка от того, что поток клиентов не иссякнет через год-два. А ещё это актив: один клиент с сайта
+              может окупить всю разработку за неделю.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item reveal reveal-delay-1">
+          <button class="accordion-header">
+            «Я сам сделаю на Тильде или конструкторе»
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              Конструктор — это компромисс. Шаблонный дизайн, ограничения по функциональности, медленная загрузка,
+              зависимость от платформы. Код — это свобода: уникальный дизайн, максимальная скорость, SEO без
+              ограничений, возможность масштабировать. А главное — конструктор не исследует ваш бизнес. Мы — исследуем.
+              Поэтому наш лендинг продаёт, а шаблон — просто существует.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item reveal reveal-delay-2">
+          <button class="accordion-header">
+            «Контент не работает, я пробовал»
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              Контент без стратегии — это крик в пустоту. «Постить иногда» и «вести контент-систему» — совершенно разные
+              вещи. Мы строим систему: AI-агент генерирует контент регулярно, по стратегии, под вашу аудиторию. Это не
+              один пост в неделю — это машина, которая работает на вас 24/7 и приводит органический трафик.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item reveal reveal-delay-3">
+          <button class="accordion-header">
+            «Это дорого»
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              Дорого — это когда нет возврата. Наши решения — это инвестиция с измеримым ROI. Лендинг за 25 000 ₽,
+              который приведёт 10 клиентов по 5 000 ₽ — окупится в 2 раза за первый месяц. Финмодель за 20 000 ₽,
+              которая покажет, где вы теряете 100 000 ₽ ежемесячно — окупится за 6 часов. Дорого — это не инвестировать
+              в цифру, пока конкуренты это делают.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item reveal reveal-delay-4">
+          <button class="accordion-header">
+            «Зачем мне финмодель?»
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              Без финмодели вы принимаете решения на интуиции. Какой продукт приносит больше маржи? Когда вы выйдете на
+              точку безубыточности? Сколько можно тратить на привлечение клиента? Финмодель отвечает на эти вопросы
+              цифрами. А если вы привлекаете инвестиции — без неё к вам просто не отнесутся серьёзно.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="section-divider"></div>
+  </div>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="section-label reveal">08 — О нас</div>
+      <h2 class="section-title reveal">Философия VECTO</h2>
+
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>VECTO — это не студия, которая берёт проекты на поток. Каждый бизнес для нас — исследование. Мы не начинаем
+            работу, пока не поймём, как вы зарабатываете, кто ваши клиенты и чем вы лучше конкурентов.</p>
+          <p>Мы используем AI не для замены качества скоростью, а для усиления обоих. Искусственный интеллект позволяет
+            нам исследовать рынок глубже, генерировать контент быстрее и тестировать гипотезы до запуска — а не после.
+          </p>
+          <p>Наша миссия — сделать цифровизацию доступной для каждого бизнеса в России. Не только для тех, кто может
+            позволить себе агентство за миллион. Для малого бизнеса, стартапов, предпринимателей, которые знают свой
+            продукт лучше всех.</p>
+          <div class="about-highlight">
+            <p>«Мы честно говорим: мы в начале пути. Но именно поэтому каждый проект для нас особенный. Через 5 лет вы
+              скажете: я был среди первых десяти клиентов VECTO.»</p>
+          </div>
+        </div>
+
+        <div class="about-values reveal reveal-delay-1">
+          <div class="about-value">
+            <div class="about-value-title">Исследование, а не шаблоны</div>
+            <div class="about-value-desc">Каждый проект начинается с анализа. Мы не используем готовые решения — мы
+              создаём уникальные.</div>
+          </div>
+          <div class="about-value">
+            <div class="about-value-title">AI как инструмент усиления</div>
+            <div class="about-value-desc">Используем AI для скорости и глубины анализа, а не для замены человеческого
+              мышления.</div>
+          </div>
+          <div class="about-value">
+            <div class="about-value-title">Только переписка</div>
+            <div class="about-value-desc">Работаем через Telegram. Никаких звонков — всё фиксируется, контекст
+              сохраняется, решения принимаются быстрее.</div>
+          </div>
+          <div class="about-value">
+            <div class="about-value-title">Партнёрство, а не подряд</div>
+            <div class="about-value-desc">Мы вникаем в бизнес клиента и предлагаем решения, о которых он не просил — но
+              которые ему нужны.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="section-divider"></div>
+  </div>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq" class="section">
+    <div class="container">
+      <div class="section-label reveal">09 — Вопросы</div>
+      <h2 class="section-title reveal">Частые вопросы</h2>
+
+      <div class="accordion" id="faqAccordion">
+        <div class="accordion-item reveal">
+          <button class="accordion-header">
+            Как проходит работа?
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              Вся коммуникация — через переписку в Telegram. Вы отправляете ТЗ или описываете задачу, мы анализируем,
+              задаём уточняющие вопросы, предлагаем решения и называем стоимость. Всё прозрачно, всё в переписке, ничего
+              не теряется.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item reveal reveal-delay-1">
+          <button class="accordion-header">
+            Сколько времени занимает разработка?
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              Лендинг — 5–10 рабочих дней. Telegram-бот — 7–14 дней. Финансовая модель — 3–7 дней. Контент-система — 5–7
+              дней. Сроки зависят от сложности — точные обсуждаем после изучения задачи.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item reveal reveal-delay-2">
+          <button class="accordion-header">
+            Почему только переписка, а не звонки?
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              В переписке весь контекст сохраняется. Мы используем AI-инструменты для анализа ваших задач — и текст
+              работает для этого лучше, чем голос. Плюс нет потерянных деталей, нет «а мы же договаривались». Всё
+              зафиксировано.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item reveal reveal-delay-3">
+          <button class="accordion-header">
+            У вас мало кейсов — почему стоит доверять?
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              Посмотрите на этот сайт. Он создан по нашей методологии. Мы не скрываем, что в начале пути — и именно
+              поэтому вкладываемся в каждый проект максимально. Первая консультация бесплатная — вы ничем не рискуете,
+              чтобы проверить наш подход.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item reveal reveal-delay-4">
+          <button class="accordion-header">
+            Что входит в бесплатную консультацию?
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              Анализ вашей текущей бизнес-модели, рекомендации по цифровизации, конкретный план действий с приоритетами
+              и ориентировочная стоимость реализации. Вы получите ценность вне зависимости от того, продолжите работу с
+              нами или нет.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="section-divider"></div>
+  </div>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section id="cta" class="section cta-section">
+    <div class="container">
+      <h2 class="section-title reveal">Готовы вывести<br>бизнес в цифру?</h2>
+      <p class="cta-description reveal">Первая консультация — бесплатно. Напишите нам, и мы разберём вашу бизнес-модель
+        за 24 часа.</p>
+      <div class="cta-buttons reveal">
+        <a href="https://t.me/nika_archon" target="_blank" rel="noopener noreferrer" class="btn-primary">
+          Написать в Telegram
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13" />
+            <path d="M22 2L15 22l-4-9-9-4z" />
+          </svg>
+        </a>
+        <a href="#calculator" class="btn-ghost">
+          Рассчитать стоимость
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-logo">VECTO</div>
+        <div class="footer-links">
+          <a href="https://t.me/nika_archon" target="_blank" rel="noopener noreferrer">Telegram</a>
+          <a href="#services">Услуги</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <div class="footer-channels">
+          <span class="footer-channels-label">Наши каналы:</span>
+          <a href="https://t.me/+1tiA7NMG_tcwMDZi" target="_blank" rel="noopener noreferrer"
+            class="footer-channel-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 2L11 13" />
+              <path d="M22 2L15 22l-4-9-9-4z" />
+            </svg>
+            ARCHON
+          </a>
+          <a href="https://t.me/+Koi4i37OJXpmMTIy" target="_blank" rel="noopener noreferrer"
+            class="footer-channel-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 2L11 13" />
+              <path d="M22 2L15 22l-4-9-9-4z" />
+            </svg>
+            VECTO
+          </a>
+          <a href="https://t.me/+wy0FM4P7CDU5YzZi" target="_blank" rel="noopener noreferrer"
+            class="footer-channel-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 2L11 13" />
+              <path d="M22 2L15 22l-4-9-9-4z" />
+            </svg>
+            ARDIS
+          </a>
+        </div>
+        <div class="footer-copy">© 2026 VECTO. Цифровая архитектура для бизнеса.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>
