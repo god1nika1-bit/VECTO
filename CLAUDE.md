@@ -3,7 +3,7 @@
 ## О проекте
 
 VECTO — коммерческий сайт-лендинг digital-студии. Хостинг: GitHub Pages.
-- Прод: https://nikach1stilin-ship-it.github.io/Vecto/
+- Прод: https://god1nika1-bit.github.io/VECTO/
 - Стек: чистый HTML + CSS + JS (без фреймворков)
 - Бот: Python 3.11+, aiogram 3.x
 - ЦА: малый бизнес, стартапы, предприниматели в России
