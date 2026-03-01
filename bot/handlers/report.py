@@ -1,7 +1,9 @@
 """Генерация .md + .pdf отчёта, пересылка файлов владельцу."""
 
 import logging
+import platform
 from datetime import datetime
+from pathlib import Path
 
 from aiogram.fsm.context import FSMContext
 from aiogram.types import BufferedInputFile, Message
@@ -60,8 +62,6 @@ def _build_report_sections(data: dict, user_id: int, username: str | None) -> di
     free_tz = data.get("free_tz", "")
 
     # Блок 5
-    contact_method = data.get("contact_method", "—")
-    contact_value = data.get("contact_value", "—")
     client_name = data.get("client_name", "—")
 
     # Deeplink
@@ -82,7 +82,6 @@ def _build_report_sections(data: dict, user_id: int, username: str | None) -> di
         "now": now,
         "niche": niche,
         "services_str": services_str,
-        "client_type": client_type,
         "ca_str": ca_str,
         "channels_str": channels_str,
         "pain": pain,
@@ -93,8 +92,6 @@ def _build_report_sections(data: dict, user_id: int, username: str | None) -> di
         "budget": budget,
         "deadline": deadline,
         "free_tz": free_tz,
-        "contact_method": contact_method,
-        "contact_value": contact_value,
         "client_name": client_name,
         "from_calc": from_calc,
         "log_str": log_str,
@@ -104,28 +101,22 @@ def _build_report_sections(data: dict, user_id: int, username: str | None) -> di
 
 
 def generate_md_report(data: dict, user_id: int, username: str | None) -> str:
-    """Генерирует .md-отчёт."""
+    """Генерирует .md-отчёт без дублирования секций."""
     s = _build_report_sections(data, user_id, username)
     service_answers = s["service_answers"]
 
     report = f"""# ТЗ: {s['niche']} — {s['now']}
 
-## КЛЮЧЕВОЕ
-- **Услуги:** {s['services_str']}
-- **Боль:** {s['pain']}
-- **Бюджет:** {s['budget']}
-- **Сроки:** {s['deadline']}
-- **С калькулятора:** {s['from_calc']}
-- **Контакт:** {s['contact_method']} — {s['contact_value']}
+> {s['services_str']} | {s['budget']} | {s['deadline']} | {s['tg_str']}
 
-## БИЗНЕС
+## КЛИЕНТ
 - **Ниша:** {s['niche']}
 - **ЦА:** {s['ca_str']}
 - **Каналы:** {s['channels_str']}
 - **Боль:** {s['pain']}
+- **С калькулятора:** {s['from_calc']}
 
 ## ПРОЕКТ
-- **Услуги:** {s['services_str']}
 - **Материалы:** {s['materials_str']}
 - **Файлы:** {s['files_count']} шт. (пересланы отдельно)
 - **Стиль:** {s['style']}
@@ -156,18 +147,46 @@ def generate_md_report(data: dict, user_id: int, username: str | None) -> str:
     report += f"""
 ## КОНТАКТ
 - **Имя:** {s['client_name']}
-- **Способ:** {s['contact_method']}
-- **Значение:** {s['contact_value']}
 - **Telegram:** {s['tg_str']} / {s['user_id']}
 
-## ПОЛНЫЙ ЛОГ
+## ЛОГ СООБЩЕНИЙ
 {s['log_str']}
 """
     return report
 
 
+def _find_cyrillic_font() -> tuple[str, str] | None:
+    """Ищет TTF-шрифт с поддержкой кириллицы. Возвращает (regular, bold) или None."""
+    candidates = []
+
+    if platform.system() == "Windows":
+        fonts_dir = Path("C:/Windows/Fonts")
+        candidates = [
+            (fonts_dir / "arial.ttf", fonts_dir / "arialbd.ttf"),
+            (fonts_dir / "calibri.ttf", fonts_dir / "calibrib.ttf"),
+            (fonts_dir / "tahoma.ttf", fonts_dir / "tahomabd.ttf"),
+        ]
+    else:
+        # Linux / Docker
+        candidates = [
+            (
+                Path("/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed.ttf"),
+                Path("/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf"),
+            ),
+            (
+                Path("/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"),
+                Path("/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"),
+            ),
+        ]
+
+    for regular, bold in candidates:
+        if regular.exists() and bold.exists():
+            return str(regular), str(bold)
+    return None
+
+
 def generate_pdf_report(data: dict, user_id: int, username: str | None) -> bytes:
-    """Генерирует PDF-отчёт. Возвращает байты PDF-файла."""
+    """Генерирует PDF-отчёт с кириллицей. Возвращает байты PDF-файла."""
     from fpdf import FPDF
 
     s = _build_report_sections(data, user_id, username)
@@ -177,73 +196,61 @@ def generate_pdf_report(data: dict, user_id: int, username: str | None) -> bytes
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
 
-    # Используем встроенный шрифт Helvetica (поддерживает latin1)
-    # Для кириллицы заменяем на транслитерацию не нужно —
-    # fpdf2 поддерживает Unicode через add_font, но для простоты
-    # используем встроенный DejaVu если доступен, иначе fallback
-    try:
-        # fpdf2 может загрузить системные шрифты
-        pdf.add_font("DejaVu", "", "DejaVuSansCondensed.ttf", uni=True)
-        pdf.add_font("DejaVu", "B", "DejaVuSansCondensed-Bold.ttf", uni=True)
-        font_name = "DejaVu"
-    except Exception:
-        try:
-            # Пробуем путь в Linux/Docker
-            pdf.add_font("DejaVu", "", "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed.ttf", uni=True)
-            pdf.add_font("DejaVu", "B", "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf", uni=True)
-            font_name = "DejaVu"
-        except Exception:
-            # Fallback: пишем .md как есть в PDF (без кириллицы могут быть проблемы)
-            font_name = "Helvetica"
+    # Ищем шрифт с кириллицей
+    font_paths = _find_cyrillic_font()
+    if font_paths:
+        regular_path, bold_path = font_paths
+        pdf.add_font("CyrFont", "", regular_path, uni=True)
+        pdf.add_font("CyrFont", "B", bold_path, uni=True)
+        font = "CyrFont"
+    else:
+        raise RuntimeError("Не найден TTF-шрифт с поддержкой кириллицы")
 
     def heading(text: str) -> None:
-        pdf.set_font(font_name, "B", 14)
+        pdf.set_font(font, "B", 13)
         pdf.cell(0, 10, text, new_x="LMARGIN", new_y="NEXT")
-        pdf.ln(2)
+        pdf.ln(1)
 
     def field(label: str, value: str) -> None:
-        pdf.set_font(font_name, "B", 10)
-        pdf.cell(50, 7, f"{label}:", new_x="END")
-        pdf.set_font(font_name, "", 10)
+        pdf.set_font(font, "B", 10)
+        pdf.cell(55, 7, f"{label}:", new_x="END")
+        pdf.set_font(font, "", 10)
         pdf.multi_cell(0, 7, value)
 
     def paragraph(text: str) -> None:
-        pdf.set_font(font_name, "", 10)
+        pdf.set_font(font, "", 10)
         pdf.multi_cell(0, 6, text)
         pdf.ln(2)
 
     # Заголовок
-    pdf.set_font(font_name, "B", 16)
+    pdf.set_font(font, "B", 16)
     pdf.cell(0, 12, f"ТЗ: {s['niche']}", new_x="LMARGIN", new_y="NEXT")
-    pdf.set_font(font_name, "", 10)
+    pdf.set_font(font, "", 10)
     pdf.cell(0, 7, s["now"], new_x="LMARGIN", new_y="NEXT")
+    pdf.ln(3)
+
+    # Краткая строка
+    pdf.set_font(font, "", 9)
+    pdf.cell(0, 6,
+             f"{s['services_str']}  |  {s['budget']}  |  {s['deadline']}  |  {s['tg_str']}",
+             new_x="LMARGIN", new_y="NEXT")
     pdf.ln(5)
 
-    # Ключевое
-    heading("КЛЮЧЕВОЕ")
-    field("Услуги", s["services_str"])
-    field("Боль", s["pain"])
-    field("Бюджет", s["budget"])
-    field("Сроки", s["deadline"])
-    field("С калькулятора", s["from_calc"])
-    field("Контакт", f"{s['contact_method']} — {s['contact_value']}")
-    pdf.ln(5)
-
-    # Бизнес
-    heading("БИЗНЕС")
+    # Клиент
+    heading("КЛИЕНТ")
     field("Ниша", s["niche"])
     field("ЦА", s["ca_str"])
     field("Каналы", s["channels_str"])
     field("Боль", s["pain"])
-    pdf.ln(5)
+    field("С калькулятора", s["from_calc"])
+    pdf.ln(4)
 
     # Проект
     heading("ПРОЕКТ")
-    field("Услуги", s["services_str"])
     field("Материалы", s["materials_str"])
     field("Файлы", f"{s['files_count']} шт. (пересланы отдельно)")
     field("Стиль", s["style"])
-    pdf.ln(5)
+    pdf.ln(4)
 
     # Детали по услугам
     heading("ДЕТАЛИ ПО УСЛУГАМ")
@@ -253,26 +260,24 @@ def generate_pdf_report(data: dict, user_id: int, username: str | None) -> bytes
             field(label, answer)
     else:
         paragraph("Нет доп. вопросов")
-    pdf.ln(5)
+    pdf.ln(4)
 
     # Бюджет и сроки
     heading("БЮДЖЕТ И СРОКИ")
     field("Бюджет", s["budget"])
     field("Сроки", s["deadline"])
-    pdf.ln(5)
+    pdf.ln(4)
 
     # Свободное ТЗ
     free_tz = s["free_tz"]
     if free_tz:
         heading("СВОБОДНОЕ ТЗ КЛИЕНТА")
         paragraph(free_tz)
-        pdf.ln(5)
+        pdf.ln(4)
 
     # Контакт
     heading("КОНТАКТ")
     field("Имя", s["client_name"])
-    field("Способ", s["contact_method"])
-    field("Значение", s["contact_value"])
     field("Telegram", f"{s['tg_str']} / {s['user_id']}")
 
     return pdf.output()
