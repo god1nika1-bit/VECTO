@@ -21,8 +21,8 @@ class SurveyStates(StatesGroup):
     b2_client_age = State()      # возраст ЦА (если B2C)
     b2_client_age_custom = State()
     b3_channels = State()        # каналы привлечения (мультивыбор)
-    b4_pain = State()            # главная боль
-    b4_pain_custom = State()     # боль — свой вариант
+    b4_pain = State()            # главная боль (мультивыбор)
+    b4_pain_custom = State()     # боль — свой вариант (доп. текст)
 
     # --- Блок 2: О проекте ---
     p1_services = State()        # выбор услуг (если не определены)
@@ -54,7 +54,8 @@ class SurveyStates(StatesGroup):
     # --- Сводка ---
     confirm_summary = State()    # клиент видит сводку и подтверждает
 
+    # --- Свободное ТЗ ---
+    free_tz_input = State()      # клиент описывает задачу своими словами
+
     # --- Блок 5: Контакт ---
-    contact_method = State()     # способ связи
-    contact_input = State()      # ввод номера/email
     contact_name = State()       # имя

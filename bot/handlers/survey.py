@@ -1,5 +1,7 @@
 """Основной flow опроса — блоки 1-5, мультивыбор, динамические вопросы."""
 
+import logging
+
 from aiogram import F, Router
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
@@ -31,15 +33,12 @@ from questions import (
     BUDGET_TEXT,
     CONFIRM_SUMMARY_BUTTONS,
     CONFIRM_SUMMARY_TEXT,
-    CONTACT_INPUT_EMAIL_TEXT,
-    CONTACT_INPUT_PHONE_TEXT,
-    CONTACT_METHOD_BUTTONS,
-    CONTACT_METHOD_MAP,
-    CONTACT_METHOD_TEXT,
     CONTACT_NAME_TEXT,
     DEADLINE_BUTTONS,
     DEADLINE_MAP,
     DEADLINE_TEXT,
+    FREE_TZ_DONE,
+    FREE_TZ_TEXT,
     MULTISELECT_DONE,
     P1_SERVICES_BUTTONS,
     P2_MATERIALS_BUTTONS,
@@ -55,7 +54,10 @@ from questions import (
     WAITING_FILES_SKIP,
     WAITING_FILES_TEXT,
 )
+
 from states import SurveyStates
+
+logger = logging.getLogger(__name__)
 
 router = Router(name="survey")
 
@@ -98,6 +100,18 @@ def _multiselect_kb(
     # Кнопка «Готово»
     rows.append([InlineKeyboardButton(text=MULTISELECT_DONE[0], callback_data=MULTISELECT_DONE[1])])
     return InlineKeyboardMarkup(inline_keyboard=rows)
+
+
+def _pluralize_files(n: int) -> str:
+    """Правильное склонение: 1 файл, 2 файла, 5 файлов."""
+    if 11 <= n % 100 <= 19:
+        return f"{n} файлов"
+    last = n % 10
+    if last == 1:
+        return f"{n} файл"
+    if 2 <= last <= 4:
+        return f"{n} файла"
+    return f"{n} файлов"
 
 
 async def _log_message(state: FSMContext, text: str) -> None:
@@ -348,35 +362,77 @@ async def on_b3_channel_text(message: Message, state: FSMContext) -> None:
     await _ask_b4_pain_msg(message, state)
 
 
-# --- B4: Главная боль ---
+# --- B4: Главная боль (мультивыбор) ---
 
 async def _ask_b4_pain(callback: CallbackQuery, state: FSMContext) -> None:
-    await _answer(callback, B4_PAIN_TEXT, reply_markup=_kb(B4_PAIN_BUTTONS, row_width=1))
+    await state.update_data(selected_pains=[])
+    await _answer(callback, B4_PAIN_TEXT,
+                  reply_markup=_multiselect_kb(B4_PAIN_BUTTONS, set(), row_width=1))
     await state.set_state(SurveyStates.b4_pain)
 
 
 async def _ask_b4_pain_msg(message: Message, state: FSMContext) -> None:
     """Версия для message (после текстового ввода)."""
-    await message.answer(B4_PAIN_TEXT, reply_markup=_kb(B4_PAIN_BUTTONS, row_width=1))
+    await state.update_data(selected_pains=[])
+    await message.answer(B4_PAIN_TEXT,
+                         reply_markup=_multiselect_kb(B4_PAIN_BUTTONS, set(), row_width=1))
     await state.set_state(SurveyStates.b4_pain)
 
 
-@router.callback_query(SurveyStates.b4_pain, F.data.startswith("pain_"))
-async def on_b4_pain(callback: CallbackQuery, state: FSMContext) -> None:
+@router.callback_query(SurveyStates.b4_pain, F.data == "multi_done")
+async def on_b4_pain_done(callback: CallbackQuery, state: FSMContext) -> None:
+    """Завершение мультивыбора болей."""
     await callback.answer()
+    data = await state.get_data()
+    selected = data.get("selected_pains", [])
+    pains = [B4_PAIN_MAP.get(s, s) for s in selected]
+    custom_text = data.get("_pain_custom_text")
+    if custom_text:
+        pains.append(custom_text)
+    pain_str = ", ".join(pains) if pains else "—"
+    await state.update_data(pain=pain_str, _pain_custom_text=None)
+    await _after_block1(callback, state)
+
+
+@router.callback_query(SurveyStates.b4_pain, F.data.startswith("pain_"))
+async def on_b4_pain_toggle(callback: CallbackQuery, state: FSMContext) -> None:
+    """Тогл боли в мультивыборе."""
+    data = await state.get_data()
+    selected = set(data.get("selected_pains", []))
+
     if callback.data == "pain_custom":
+        # Запросить текст
+        await callback.answer()
+        await state.update_data(selected_pains=list(selected))
         await _answer(callback, "Опишите вашу проблему:")
         await state.set_state(SurveyStates.b4_pain_custom)
         return
-    pain = B4_PAIN_MAP.get(callback.data, callback.data)
-    await state.update_data(pain=pain)
-    await _after_block1(callback, state)
+
+    # Тогл
+    if callback.data in selected:
+        selected.discard(callback.data)
+    else:
+        selected.add(callback.data)
+    await state.update_data(selected_pains=list(selected))
+    await callback.answer()
+    try:
+        await callback.message.edit_reply_markup(
+            reply_markup=_multiselect_kb(B4_PAIN_BUTTONS, selected, row_width=1)
+        )
+    except Exception:
+        pass
 
 
 @router.message(SurveyStates.b4_pain_custom)
 async def on_b4_pain_custom(message: Message, state: FSMContext) -> None:
+    """Текстовый ввод для 'Своя проблема' — сохраняем и продолжаем."""
     await _log_message(state, message.text)
-    await state.update_data(pain=message.text)
+    data = await state.get_data()
+    selected = data.get("selected_pains", [])
+    pains = [B4_PAIN_MAP.get(s, s) for s in selected]
+    pains.append(message.text)
+    pain_str = ", ".join(pains) if pains else message.text
+    await state.update_data(pain=pain_str, _pain_custom_text=None)
     await _after_block1_msg(message, state)
 
 
@@ -522,30 +578,68 @@ async def on_p2_toggle(callback: CallbackQuery, state: FSMContext) -> None:
 @router.callback_query(SurveyStates.waiting_files, F.data.in_({"files_skip", "files_done"}))
 async def on_files_done(callback: CallbackQuery, state: FSMContext) -> None:
     await callback.answer()
+    # Удаляем сообщение-счётчик если оно есть
+    data = await state.get_data()
+    counter_id = data.get("_files_counter_msg_id")
+    if counter_id:
+        try:
+            await callback.message.bot.delete_message(
+                chat_id=callback.message.chat.id,
+                message_id=counter_id,
+            )
+        except Exception:
+            pass
+        await state.update_data(_files_counter_msg_id=None)
     await _ask_p3_style(callback, state)
 
 
 @router.message(SurveyStates.waiting_files)
 async def on_file_received(message: Message, state: FSMContext) -> None:
-    """Приём файлов/фото от клиента."""
+    """Приём файлов/фото от клиента — один редактируемый счётчик."""
     data = await state.get_data()
     files = data.get("files", [])
 
     file_info = None
     if message.document:
-        file_info = f"📄 {message.document.file_name} ({message.document.file_id})"
+        file_info = {
+            "type": "document",
+            "file_id": message.document.file_id,
+            "file_name": message.document.file_name,
+        }
     elif message.photo:
-        # Берём фото в максимальном разрешении
         photo = message.photo[-1]
-        file_info = f"🖼 Фото ({photo.file_id})"
+        file_info = {
+            "type": "photo",
+            "file_id": photo.file_id,
+            "file_name": None,
+        }
 
     if file_info:
         files.append(file_info)
-        await state.update_data(files=files)
-        await message.answer(f"Принял! ({len(files)} файл(ов)). Ещё? Или нажмите кнопку выше.")
+        counter_text = f"📎 Принял! ({_pluralize_files(len(files))}). Ещё? Или нажмите кнопку выше."
+        counter_id = data.get("_files_counter_msg_id")
+
+        if counter_id:
+            # Редактируем существующее сообщение-счётчик
+            try:
+                await message.bot.edit_message_text(
+                    text=counter_text,
+                    chat_id=message.chat.id,
+                    message_id=counter_id,
+                )
+            except Exception:
+                # Если не получилось отредактировать — шлём новое
+                sent = await message.answer(counter_text)
+                counter_id = sent.message_id
+        else:
+            # Первый файл — отправляем новое сообщение-счётчик
+            sent = await message.answer(counter_text)
+            counter_id = sent.message_id
+
+        await state.update_data(files=files, _files_counter_msg_id=counter_id)
     elif message.text:
         await _log_message(state, message.text)
-        await message.answer("Принял! Ещё файлы? Или нажмите кнопку выше.")
+        await message.answer("Принял текст! Ещё файлы? Или нажмите кнопку выше.")
 
 
 # --- P3: Стиль/референсы ---
@@ -749,7 +843,7 @@ async def _show_summary_msg(message: Message, state: FSMContext) -> None:
 @router.callback_query(SurveyStates.confirm_summary, F.data == "summary_ok")
 async def on_summary_ok(callback: CallbackQuery, state: FSMContext) -> None:
     await callback.answer()
-    await _ask_contact(callback, state)
+    await _ask_free_tz(callback, state)
 
 
 @router.callback_query(SurveyStates.confirm_summary, F.data == "summary_redo")
@@ -788,40 +882,49 @@ async def on_summary_edit_choice(callback: CallbackQuery, state: FSMContext) -> 
         await _ask_budget(callback, state)
 
 
-# ==================== БЛОК 5: КОНТАКТ ====================
+# ==================== СВОБОДНОЕ ТЗ ====================
 
-async def _ask_contact(callback: CallbackQuery, state: FSMContext) -> None:
-    await _answer(callback, CONTACT_METHOD_TEXT, reply_markup=_kb(CONTACT_METHOD_BUTTONS, row_width=1))
-    await state.set_state(SurveyStates.contact_method)
+async def _ask_free_tz(callback: CallbackQuery, state: FSMContext) -> None:
+    """Предлагаем клиенту описать задачу своими словами."""
+    await state.update_data(free_tz="")
+    kb = _kb([FREE_TZ_DONE], row_width=1)
+    await _answer(callback, FREE_TZ_TEXT, reply_markup=kb)
+    await state.set_state(SurveyStates.free_tz_input)
 
 
-@router.callback_query(SurveyStates.contact_method, F.data.startswith("contact_"))
-async def on_contact_method(callback: CallbackQuery, state: FSMContext) -> None:
+@router.callback_query(SurveyStates.free_tz_input, F.data == "free_tz_done")
+async def on_free_tz_done(callback: CallbackQuery, state: FSMContext) -> None:
+    """Клиент завершил ввод свободного ТЗ → переход к контакту."""
     await callback.answer()
-    method = CONTACT_METHOD_MAP.get(callback.data, callback.data)
-    await state.update_data(contact_method=method)
-
-    if callback.data == "contact_tg":
-        # Telegram — спрашиваем только имя
-        await state.update_data(
-            contact_value=f"@{callback.from_user.username}" if callback.from_user.username else str(callback.from_user.id),
-        )
-        await _answer(callback, CONTACT_NAME_TEXT)
-        await state.set_state(SurveyStates.contact_name)
-    elif callback.data == "contact_phone":
-        await _answer(callback, CONTACT_INPUT_PHONE_TEXT)
-        await state.set_state(SurveyStates.contact_input)
-    elif callback.data == "contact_email":
-        await _answer(callback, CONTACT_INPUT_EMAIL_TEXT)
-        await state.set_state(SurveyStates.contact_input)
+    await _ask_contact_name(callback, state)
 
 
-@router.message(SurveyStates.contact_input)
-async def on_contact_input(message: Message, state: FSMContext) -> None:
-    """Ввод телефона или email."""
+@router.message(SurveyStates.free_tz_input)
+async def on_free_tz_text(message: Message, state: FSMContext) -> None:
+    """Приём свободного текста ТЗ (может быть несколько сообщений)."""
     await _log_message(state, message.text)
-    await state.update_data(contact_value=message.text)
-    await message.answer(CONTACT_NAME_TEXT)
+    data = await state.get_data()
+    current = data.get("free_tz", "")
+    if current:
+        current += "\n" + message.text
+    else:
+        current = message.text
+    await state.update_data(free_tz=current)
+    kb = _kb([FREE_TZ_DONE], row_width=1)
+    await message.answer("Записал! Можете дополнить или нажмите кнопку:", reply_markup=kb)
+
+
+# ==================== БЛОК 5: КОНТАКТ (только Telegram) ====================
+
+async def _ask_contact_name(callback: CallbackQuery, state: FSMContext) -> None:
+    """Сохраняем Telegram-контакт и спрашиваем имя."""
+    user = callback.from_user
+    contact_value = f"@{user.username}" if user and user.username else str(user.id if user else 0)
+    await state.update_data(
+        contact_method="Telegram",
+        contact_value=contact_value,
+    )
+    await _answer(callback, CONTACT_NAME_TEXT)
     await state.set_state(SurveyStates.contact_name)
 
 
